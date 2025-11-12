@@ -1,0 +1,10 @@
+name = "adanoise"
+description = "A simple cli tool to display noise to the terminal"
+version = "0.1.0-dev"
+
+authors = ["Vianney Hervy"]
+maintainers = ["Vianney Hervy <vian.hervy@gmail.com>"]
+maintainers-logins = ["sully-vian"]
+licenses = "MIT"
+website = "https://github.com/sully-vian/adanoise"
+tags = []
