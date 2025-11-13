@@ -20,6 +20,8 @@ package body Colors is
         Reset : constant String := ESC & "[0m";
     begin
         return
-           Wide_Wide_String (Gray) & Lower_Square & Wide_Wide_String (Reset);
+           Wide_Wide_String_Of (Gray)
+           & Lower_Square
+           & Wide_Wide_String_Of (Reset);
     end;
 end Colors;
