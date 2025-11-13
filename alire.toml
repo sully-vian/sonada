@@ -8,3 +8,6 @@ maintainers-logins = ["sully-vian"]
 licenses = "MIT"
 website = "https://github.com/sully-vian/adanoise"
 tags = []
+
+[[depends-on]]
+gnatcoll = "^25.0.0"
