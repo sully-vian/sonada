@@ -1,5 +1,4 @@
-with Ada.Wide_Wide_Text_IO; use Ada.Wide_Wide_Text_IO;
-
 package Colors is
-    function Grayscale (Noise : in Float) return Wide_Wide_String;
+    subtype Gray_String is String (1 .. 16);
+    function Grayscale (Noise : in Float; C : in Character) return Gray_String;
 end Colors;

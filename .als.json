@@ -1,3 +1,7 @@
 {
-    "projectFile": "adanoise.gpr"
+    "projectFile": "adanoise.gpr",
+    "adaFileDiagnostics": true,
+    "gprFileDiagnostics": true,
+    "sourceInfoDiagnostics": true,
+    "alireDiagnostics": true
 }
