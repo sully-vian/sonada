@@ -1,31 +1,30 @@
-with Ada.Text_IO;                       use Ada.Text_IO;
-with GNATCOLL.Terminal;                 use GNATCOLL.Terminal;
 with Constants;                         use Constants;
 with Ada.Numerics.Elementary_Functions; use Ada.Numerics.Elementary_Functions;
 
 package body Lib is
 
+    -- hash(i,j) = perm[perm[i] + j]
     function Get_Hash (I : in Integer; J : in Integer) return Integer is
     begin
         return Permutations (((Permutations (I mod 256)) + J) mod 256);
-    end;
+    end Get_Hash;
 
     function Get_Angle (I : in Integer; J : in Integer) return Float is
         Hash : constant Integer := Get_Hash (I, J);
     begin
         return Float (Hash) * Inv_256 * Two_Pi;
-    end;
+    end Get_Angle;
 
     function Lerp
        (Start : Float; Stop : in Float; Amount : in Float) return Float is
     begin
         return (1.0 - Amount) * Start + Amount * Stop;
-    end;
+    end Lerp;
 
     function Fade (T : in Float) return Float is
     begin
-        return T * T * T * (T * (T * 6.0 - 15.0 + 10.0));
-    end;
+        return T * T * T * (T * (T * 6.0 - 15.0) + 10.0);
+    end Fade;
 
     function Perlin (X : in Float; Y : in Float) return Float is
         I        : constant Integer := Integer (Float'Floor (X));
@@ -43,11 +42,12 @@ package body Lib is
            Xf * Cos (Angle_BL) + (Yf - 1.0) * Sin (Angle_BL);
         Inf_BR   : constant Float :=
            (Xf - 1.0) * Cos (Angle_BR) + (Yf - 1.0) * Sin (Angle_BR);
-        Fade_X   : constant Float := Fade (Xf);
-        Fade_Y   : constant Float := Fade (Yf);
+        Fade_X   : constant Float := Fade (Xf);--Frac (X));
+        Fade_Y   : constant Float := Fade (Yf);--Frac (Y));
         Top      : constant Float := Lerp (Inf_TL, Inf_TR, Fade_X);
         Bot      : constant Float := Lerp (Inf_BL, Inf_BR, Fade_X);
     begin
         return Lerp (Top, Bot, Fade_Y);
-    end;
+    end Perlin;
+
 end Lib;
