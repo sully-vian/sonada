@@ -1,7 +1,6 @@
-# adanoise
+# Sonada
 
-A simple cli tool to display noise to the terminal.
-
+A perlin noise animation in your terminal written in Ada.
 
 ## Commands
 

@@ -3,7 +3,7 @@ with Colors;      use Colors;
 with Ada.Text_IO; use Ada.Text_IO;
 with Terminal_Size;
 
-procedure Adanoise is
+procedure Sonada is
 
     type Pixel_Coord is record
         X : Float;
@@ -77,4 +77,4 @@ begin
 
     -- start
     Main (Term_Height, Term_Width);
-end Adanoise;
+end Sonada;

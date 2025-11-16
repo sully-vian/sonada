@@ -1,11 +1,11 @@
-name = "adanoise"
-description = "A simple cli tool to display noise to the terminal"
+name = "sonada"
+description = "A perlin noise animation in your terminal written in Ada."
 version = "0.1.0-dev"
 
 authors = ["Vianney Hervy"]
 maintainers = ["Vianney Hervy <vian.hervy@gmail.com>"]
 maintainers-logins = ["sully-vian"]
 licenses = "MIT"
-website = "https://github.com/sully-vian/adanoise"
+website = "https://github.com/sully-vian/sonada"
 tags = []
 

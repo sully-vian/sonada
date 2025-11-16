@@ -1,14 +1,14 @@
-with "config/adanoise_config.gpr";
-project Adanoise is
+with "config/sonada_config.gpr";
+project Sonada is
 
    for Source_Dirs use ("src/", "config/");
-   for Object_Dir use "obj/" & Adanoise_Config.Build_Profile;
+   for Object_Dir use "obj/" & Sonada_Config.Build_Profile;
    for Create_Missing_Dirs use "True";
    for Exec_Dir use "bin";
-   for Main use ("adanoise.adb");
+   for Main use ("sonada.adb");
 
    package Compiler is
-      for Default_Switches ("Ada") use Adanoise_Config.Ada_Compiler_Switches;
+      for Default_Switches ("Ada") use Sonada_Config.Ada_Compiler_Switches;
    end Compiler;
 
    package Binder is
@@ -19,4 +19,4 @@ project Adanoise is
       for Artifacts (".") use ("share");
    end Install;
 
-end Adanoise;
+end Sonada;
