@@ -1,5 +1,3 @@
-with Ada.Wide_Wide_Text_IO; use Ada.Wide_Wide_Text_IO;
-
 package Constants is
     Lower_Square : constant Wide_Wide_String := "▄";
     Two_Pi       : constant Float := 6.283185307179586;

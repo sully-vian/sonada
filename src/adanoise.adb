@@ -1,7 +1,7 @@
 with Lib;         use Lib;
-with Utils;       use Utils;
 with Colors;      use Colors;
 with Ada.Text_IO; use Ada.Text_IO;
+with Terminal_Size;
 
 procedure Adanoise is
 
@@ -62,6 +62,9 @@ procedure Adanoise is
         -- loop for later animation
         loop
             Print_Frame (Coords);
+            loop
+                null;
+            end loop;
             exit;
         end loop;
     end Main;
@@ -70,9 +73,8 @@ procedure Adanoise is
 begin
     -- Get Variables
     -- TODO: parse cli args
-    Term_Size (Term_Height, Term_Width);
+    Terminal_Size (Term_Height, Term_Width);
 
     -- start
-    --Main (10, 20);
     Main (Term_Height, Term_Width);
 end Adanoise;
