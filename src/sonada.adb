@@ -34,6 +34,11 @@ procedure Sonada is
         NY          : constant Integer := Coords'Length (2);
         Cell_Length : constant Integer := Gray_String'Length;
 
+        -- ANSI escape codes
+        Clear_Screen : constant String := Character'Val (27) & "[2J";
+        Move_Home    : constant String := Character'Val (27) & "[H";
+        LF           : constant Character := Character'Val (10);
+
         -- one newline per row
         Total : constant Integer := NX * NY * Cell_Length + NY;
         Frame : String (1 .. Total) := (others => ' ');
@@ -48,34 +53,36 @@ procedure Sonada is
                 Frame (Pos .. Pos + Cell_Length - 1) := Grayscale (Noise, ' ');
                 Pos := Pos + Cell_Length;
             end loop;
-            --Frame (Pos) := Character'Val (10); -- LF char
-            --Frame (Pos) := '-';
-            --Pos := Pos + 1;
+            Frame (Pos) := LF;
+            Pos := Pos + 1;
         end loop;
-        Put (Frame); -- single write per frame
+        Put (Clear_Screen & Move_Home & Frame); -- single write per frame
     end Print_Frame;
 
-    procedure Main (Term_Height, Term_Width : in Positive) is
+    procedure Main
+       (Term_Height, Term_Width : in Positive; FPS : in Standard.Duration)
+    is
         Coords : Coord_Matrix (0 .. Term_Height - 1, 0 .. Term_Width - 1);
         Time_Z : Float := 0.0;
     begin
-        Build_Coord_Array (0.0, 0.0, 10.0, 10.0, Coords);
+        Build_Coord_Array (0.0, 0.0, 2.0, 2.0, Coords);
         -- loop for later animation
         loop
             Print_Frame (Coords, Time_Z);
             Time_Z := Time_Z + 0.1;
-            delay 0.33;
+            delay 1.0 / FPS;
             --exit;
         end loop;
     end Main;
 
     Term_Width, Term_Height : Positive;
+    FPS                     : constant Integer := 10;
 begin
     -- Get Variables
     -- TODO: parse cli args
     Terminal_Size (Term_Height, Term_Width);
 
     -- start
-    --Main (11, 11);
-    Main (Term_Height, Term_Width);
+    Main (10, 20, Standard.Duration (FPS));
+--Main (Term_Height, Term_Width);
 end Sonada;

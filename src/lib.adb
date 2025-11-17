@@ -1,5 +1,4 @@
-with Constants;                         use Constants;
-with Ada.Numerics.Elementary_Functions; use Ada.Numerics.Elementary_Functions;
+with Constants; use Constants;
 
 package body Lib is
 
@@ -17,12 +16,6 @@ package body Lib is
               ((Permutations ((Permutations (I mod 256) + J) mod 256) + K)
                mod 256);
     end Get_Hash;
-
-    function Get_Angle (I, J, K : in Integer) return Float is
-        Hash : constant Integer := Get_Hash (I, J, K);
-    begin
-        return Float (Hash) * Inv_256 * Two_Pi;
-    end Get_Angle;
 
     -- Calculates a hash value for (I,J,K), modulates it to [0,5] and gives
     -- a corresponsing iso-oriented gradient
