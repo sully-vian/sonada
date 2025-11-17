@@ -19,8 +19,7 @@ package body Colors is
         Norm   : constant Integer :=
            Integer (Normalize (Noise, Gray_Min, Gray_Max));
         Gray   : constant String := ESC & "[48;5;" & String_Of (Norm) & "m";
-        Reset  : constant String := ESC & "[0m";
-        Result : constant Gray_String := Gray & C & Reset;
+        Result : constant Gray_String := Gray & C;
     begin
         return Result;
     end Grayscale;

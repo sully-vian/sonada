@@ -2,8 +2,18 @@ with Lib;         use Lib;
 with Colors;      use Colors;
 with Ada.Text_IO; use Ada.Text_IO;
 with Terminal_Size;
+with Interrupt_Handler;
+pragma Unreferenced (Interrupt_Handler);
+pragma Unreserve_All_Interrupts;
 
 procedure Sonada is
+    -- ANSI escape codes
+    Clear       : constant String := Character'Val (27) & "[2J";
+    Move_Home   : constant String := Character'Val (27) & "[H";
+    LF          : constant Character := Character'Val (10);
+    Hide_Cursor : constant String := Character'Val (27) & "[?25l";
+    Show_Cursor : constant String := Character'Val (27) & "[?25h";
+    Reset       : constant String := Character'Val (27) & "[0m";
 
     type Pixel_Coord is record
         X : Float;
@@ -30,17 +40,12 @@ procedure Sonada is
     end Build_Coord_Array;
 
     procedure Print_Frame (Coords : in Coord_Matrix; Time_Z : in Float) is
-        NX          : constant Integer := Coords'Length (1);
-        NY          : constant Integer := Coords'Length (2);
+        NX          : constant Integer := Coords'Length (2);
+        NY          : constant Integer := Coords'Length (1);
         Cell_Length : constant Integer := Gray_String'Length;
 
-        -- ANSI escape codes
-        Clear_Screen : constant String := Character'Val (27) & "[2J";
-        Move_Home    : constant String := Character'Val (27) & "[H";
-        LF           : constant Character := Character'Val (10);
-
-        -- one newline per row
-        Total : constant Integer := NX * NY * Cell_Length + NY;
+        -- one newline per row except the last
+        Total : constant Integer := NX * NY * Cell_Length + (NY - 1);
         Frame : String (1 .. Total) := (others => ' ');
         Pos   : Integer := 1;
         Noise : Float;
@@ -53,10 +58,12 @@ procedure Sonada is
                 Frame (Pos .. Pos + Cell_Length - 1) := Grayscale (Noise, ' ');
                 Pos := Pos + Cell_Length;
             end loop;
-            Frame (Pos) := LF;
-            Pos := Pos + 1;
+            if (I /= Coords'Last (1)) then
+                Frame (Pos) := LF;
+                Pos := Pos + 1;
+            end if;
         end loop;
-        Put (Clear_Screen & Move_Home & Frame); -- single write per frame
+        Put (Move_Home & Frame); -- single write per frame
     end Print_Frame;
 
     procedure Main
@@ -65,24 +72,31 @@ procedure Sonada is
         Coords : Coord_Matrix (0 .. Term_Height - 1, 0 .. Term_Width - 1);
         Time_Z : Float := 0.0;
     begin
-        Build_Coord_Array (0.0, 0.0, 2.0, 2.0, Coords);
+        Build_Coord_Array (0.0, 0.0, 5.0, 5.0, Coords);
         -- loop for later animation
+        Put (Hide_Cursor & Clear);
         loop
             Print_Frame (Coords, Time_Z);
             Time_Z := Time_Z + 0.1;
             delay 1.0 / FPS;
-            --exit;
+            -- exit;
         end loop;
     end Main;
 
     Term_Width, Term_Height : Positive;
-    FPS                     : constant Integer := 10;
+    FPS                     : constant Integer := 30;
 begin
     -- Get Variables
     -- TODO: parse cli args
     Terminal_Size (Term_Height, Term_Width);
 
     -- start
-    Main (10, 20, Standard.Duration (FPS));
---Main (Term_Height, Term_Width);
+    --Main (5, 10, Standard.Duration (FPS));
+    Main (Term_Height, Term_Width, Standard.Duration (FPS));
+    Put (Reset & Show_Cursor);
+exception
+    when others =>
+        Put (Reset & Show_Cursor);
+        Put ("Caught");
+        raise;
 end Sonada;
