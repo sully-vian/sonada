@@ -1,4 +1,5 @@
 with Ada.Characters.Latin_1; use Ada.Characters.Latin_1;
+with Ada.Text_IO;            use Ada.Text_IO;
 with Utils;                  use Utils;
 
 package body Colors is
@@ -7,9 +8,11 @@ package body Colors is
 
     -- normalize X in [-1, 1] to [Min,Max]
     function Normalize
-       (X : in Float; Min : in Float; Max : in Float) return Float is
+       (X : in Float; Min : in Float; Max : in Float) return Float
+    is
+        Temp : constant Float := Min + (X + 1.0) * (Max - Min) / 2.0;
     begin
-        return Min + (X + 1.0) * (Max - Min) / 2.0;
+        return Temp;
     end Normalize;
 
     function Grayscale (Noise : in Float; C : in Character) return Gray_String

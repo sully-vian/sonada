@@ -29,7 +29,7 @@ procedure Sonada is
         end loop;
     end Build_Coord_Array;
 
-    procedure Print_Frame (Coords : in Coord_Matrix) is
+    procedure Print_Frame (Coords : in Coord_Matrix; Time_Z : in Float) is
         NX          : constant Integer := Coords'Length (1);
         NY          : constant Integer := Coords'Length (2);
         Cell_Length : constant Integer := Gray_String'Length;
@@ -44,28 +44,28 @@ procedure Sonada is
         for I in Coords'Range (1) loop
             for J in Coords'Range (2) loop
                 Pixel := Coords (I, J);
-                Noise := Perlin (Pixel.X, Pixel.Y);
+                Noise := Perlin (Pixel.X, Pixel.Y, Time_Z);
                 Frame (Pos .. Pos + Cell_Length - 1) := Grayscale (Noise, ' ');
                 Pos := Pos + Cell_Length;
             end loop;
-            Frame (Pos) := Character'Val (10); -- LF char
+            --Frame (Pos) := Character'Val (10); -- LF char
             --Frame (Pos) := '-';
-            Pos := Pos + 1;
+            --Pos := Pos + 1;
         end loop;
         Put (Frame); -- single write per frame
     end Print_Frame;
 
-    procedure Main (Term_Height : in Positive; Term_Width : in Positive) is
+    procedure Main (Term_Height, Term_Width : in Positive) is
         Coords : Coord_Matrix (0 .. Term_Height - 1, 0 .. Term_Width - 1);
+        Time_Z : Float := 0.0;
     begin
         Build_Coord_Array (0.0, 0.0, 10.0, 10.0, Coords);
         -- loop for later animation
         loop
-            Print_Frame (Coords);
-            loop
-                null;
-            end loop;
-            exit;
+            Print_Frame (Coords, Time_Z);
+            Time_Z := Time_Z + 0.1;
+            delay 0.33;
+            --exit;
         end loop;
     end Main;
 
@@ -76,5 +76,6 @@ begin
     Terminal_Size (Term_Height, Term_Width);
 
     -- start
+    --Main (11, 11);
     Main (Term_Height, Term_Width);
 end Sonada;
