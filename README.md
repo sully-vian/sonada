@@ -2,17 +2,9 @@
 
 A perlin noise animation in your terminal written in Ada.
 
-## Commands
+## TODO
 
-To build project:
-
-```bash
-alr build
-```
-
-To (build and) run project:
-
-```bash
-alr run
-```
+- [ ] Develop the building process and multi-platform releases for github
+- [ ] Add cli options support
+- [ ] Add documentation
 
