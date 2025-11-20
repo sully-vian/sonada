@@ -1,5 +1,5 @@
 # use installed alire or local one: ./bin/alr
-ALR = $(shell command -v alr 2> /dev/null || echo ./bin/alr)
+ALR = $(shell command -v alr 2> /dev/null || echo bin/alr)
 GNATFORMAT = gnatformat 
 
 GPRFILE = sonada.gpr
@@ -14,7 +14,6 @@ all: release
 setup-alire:
 	curl -L -O $(ALR_URL)
 	unzip $(ALR_ARCHIVE)
-	$(ALR) install gnat_native gprbuild
 	$(ALR) toolchain --select gnat_native gprbuild
 
 format:
@@ -42,12 +41,5 @@ settings:
 
 update:
 	alr update
-
-# Example cross-compilation targets
-linux-x86_64:
-	$(MAKE) all TARGET=x86_64-linux-gnu
-
-windows-x86_64:
-	$(MAKE) all TARGET=x86_64-w64-mingw32
 
 .PHONY: all setup-alire format act release dev run clean settings update
