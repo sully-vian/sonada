@@ -3,9 +3,7 @@ with Interfaces.C; use Interfaces.C;
 with Interfaces;   use Interfaces;
 with System;       use System;
 
-procedure Terminal_Size
-  (Terminal_Height : out Integer; Terminal_Width : out Integer)
-is
+procedure Terminal_Size (Terminal_Height, Terminal_Width : out Positive) is
    STDIN_FILENO : constant C.int := 0; -- Macro from <unistd.h>
    TIOCGWINSZ   : constant C.unsigned_long :=
      16#5413#; -- Macro from <sys/ioctl.h>
@@ -28,12 +26,16 @@ is
 
    w : winsize;
 begin
-   if (Ioctl (STDIN_FILENO, TIOCGWINSZ, w'Address) /= 0) then
-      Put_Line ("error in ioctl");
+   Put_Line
+     (Ioctl
+        (STDIN_FILENO,
+         TIOCGWINSZ,
+         w'Address)'Image); -- no check for return type, the
+   Put_Line (w.ws_row'Image & "|" & w.ws_col'Image);
+   Terminal_Height := Positive (w.ws_row);
+   Terminal_Width := Positive (w.ws_col);
+exception
+   when others =>
       Terminal_Height := Default_Height;
       Terminal_Width := Default_Width;
-      return;
-   end if;
-   Terminal_Height := Integer (w.ws_row);
-   Terminal_Width := Integer (w.ws_col);
 end Terminal_Size;

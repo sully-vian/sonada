@@ -1,34 +1,46 @@
-GPRBUILD = gprbuild
-GPRCLEAN = gprclean
+# use installed alire or local one: ./bin/alr
+ALR = $(shell command -v alr 2> /dev/null || echo ./bin/alr)
 GNATFORMAT = gnatformat 
 
 GPRFILE = sonada.gpr
 BINARY = bin/sonada
 
-# Default target architecture
-TARGET ?= native
-
-ifeq ($(TARGET),native)
-	TARGET_FLAGS =
-else
-	TARGET_FLAGS = --target=$(TARGET)
-endif
+ALR_VERSION = 2.1.0
+ALR_ARCHIVE = alr-$(ALR_VERSION)-bin-x86_64-linux.zip
+ALR_URL = https://github.com/alire-project/alire/releases/download/v$(ALR_VERSION)/$(ALR_ARCHIVE)
 
 all: release
+
+setup-alire:
+	curl -L -O $(ALR_URL)
+	unzip $(ALR_ARCHIVE)
+	$(ALR) toolchain --select gprbuild gnat_native
 
 format:
 	$(GNATFORMAT) -P $(GPRFILE)
 
+act:
+	act push
+
 release:
-	$(GPRBUILD) -p -P $(GPRFILE) $(TARGET_FLAGS) -XBUILD=release
+	$(ALR) build --release
 	@if [ -f $(BINARY) ]; then strip $(BINARY); fi
 
-debug:
-	$(GPRBUILD) -p -P $(GPRFILE) $(TARGET_FLAGS) -XBUILD=debug
+dev:
+	$(ALR) build --development
+
+run:
+	$(ALR) run
 
 clean:
-	$(GPRCLEAN) -P $(GPRFILE)
+	$(ALR) clean
 	rm -rf bin obj
+
+settings:
+	$(ALR) settings
+
+update:
+	alr update
 
 # Example cross-compilation targets
 linux-x86_64:
@@ -37,4 +49,4 @@ linux-x86_64:
 windows-x86_64:
 	$(MAKE) all TARGET=x86_64-w64-mingw32
 
-.PHONY: all debug clean linux-x86_64 windows-x86_64
+.PHONY: all setup-alire format act release dev run clean settings update

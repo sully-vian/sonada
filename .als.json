@@ -2,6 +2,6 @@
     "projectFile": "sonada.gpr",
     "adaFileDiagnostics": true,
     "gprFileDiagnostics": true,
-    "sourceInfoDiagnostics": true,
-    "alireDiagnostics": true
+    "alireDiagnostics": true,
+    "sourceInfoDiagnostics": true
 }

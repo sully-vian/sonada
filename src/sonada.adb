@@ -90,6 +90,7 @@ begin
    -- Get Variables
    -- TODO: parse cli args
    Terminal_Size (Term_Height, Term_Width);
+   Put_Line ("(" & Term_Height'Image & "," & Term_Width'Image & ")");
 
    -- start
    --Main (5, 10, Standard.Duration (FPS));

@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -12,20 +12,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up GNAT toolchain
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y gnat gprbuild
+      - name: Set up Alire
+        run: make setup-alire
 
-    - name: Build release
-      run: make release
+      - name: Build release
+        run: make release
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: sonada-linux-x86_64
-        path: bin/sonada
-        retention-days: 30
+      - name: Test binary
+        run: |
+          ls -lh bin/
+          file bin/sonada
+          ldd bin/sonada
+          test -x ./bin/sonada # will do ./bin/sonada -h when cli options are enabled
+
+      - name: Upload artifact
+        if: ${{env.ACT != 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: sonada-linux-x86_64
+          path: bin/sonada
+          retention-days: 30

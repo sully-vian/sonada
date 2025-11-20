@@ -1,0 +1,4 @@
+-P ubuntu-latest=catthehacker/ubuntu:act-latest
+
+# to signal the action to skip the artifact part
+--container-options "-e ACT=true -t"
