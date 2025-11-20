@@ -14,7 +14,8 @@ all: release
 setup-alire:
 	curl -L -O $(ALR_URL)
 	unzip $(ALR_ARCHIVE)
-	$(ALR) toolchain --select gprbuild gnat_native
+	$(ALR) install gnat_native gprbuild
+	$(ALR) toolchain --select gnat_native gprbuild
 
 format:
 	$(GNATFORMAT) -P $(GPRFILE)
