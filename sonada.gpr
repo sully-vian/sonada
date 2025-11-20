@@ -73,7 +73,7 @@ project Sonada is
    package Linker is
       case Build is
          when "release" =>
-            -- optional: static linking, strip, etc.
+            for Default_Switches("Ada") use ("-static");
             null;
 
          when "debug" =>
