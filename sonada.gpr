@@ -88,6 +88,7 @@ project Sonada is
        for Indentation ("Ada") use "3";
        for Indentation_Kind("Ada") use "spaces";
        for Width("Ada") use "79";
+       for Charset ("Ada") use "utf-8";
    end Format;
 
 end Sonada;

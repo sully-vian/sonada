@@ -1,6 +1,5 @@
 package Constants is
-   Lower_Square : constant Wide_Wide_String :=
-     "ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ";
+   Lower_Square : constant Wide_Wide_String := "▄";
    Two_Pi       : constant Float := 6.283185307179586;
    -- compute inverse once to save time
    Inv_256      : constant Float := 1.0 / 256.0;

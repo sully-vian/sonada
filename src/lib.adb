@@ -48,7 +48,16 @@ package body Lib is
       return Grad;
    end Get_Gradient_3D;
 
-   -- For explanation regarding the variable names, look into the NOTES.md
+   --     G-------------C
+   --    /·            /|
+   --   / ·           / |
+   --  /  ·          /  |
+   -- H-------------D   |       y
+   -- |   E·········|···A    z__|
+   -- |  ·          |  /       /
+   -- | ·           | /       x
+   -- |·            |/
+   -- F-------------B
    function Lerp (Start, Stop, Amount : in Float) return Float is
    begin
       return (1.0 - Amount) * Start + Amount * Stop;
@@ -81,7 +90,7 @@ package body Lib is
       G_G : constant Gradient := Get_Gradient_3D (I, J + 1, K + 1);
       G_H : constant Gradient := Get_Gradient_3D (I + 1, J + 1, K + 1);
 
-      -- Calculate dot products (gradient ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· offset)
+      -- Calculate dot products (gradient·offset)
       Inf_A : constant Float := Xf * G_A.X + Yf * G_A.Y + Zf * G_A.Z;
       Inf_B : constant Float := (Xf - 1.0) * G_B.X + Yf * G_B.Y + Zf * G_B.Z;
       Inf_C : constant Float := Xf * G_C.X + (Yf - 1.0) * G_C.Y + Zf * G_C.Z;

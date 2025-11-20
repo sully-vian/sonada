@@ -1,4 +1,4 @@
-# Sonada
+![](./assets/ascii-logo.png)
 
 A perlin noise animation in your terminal written in Ada.
 

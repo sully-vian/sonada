@@ -1,10 +1,11 @@
 with Ada.Text_IO; use Ada.Text_IO;
 with Colors;      use Colors;
+with Lib;         use Lib;
 with Interrupt_Handler;
+with Terminal_Size;
+
 pragma Unreferenced (Interrupt_Handler);
 pragma Unreserve_All_Interrupts;
-with Lib;         use Lib;
-with Terminal_Size;
 
 procedure Sonada is
    -- ANSI escape codes
