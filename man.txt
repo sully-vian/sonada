@@ -1,0 +1,19 @@
+options:
+    
+    -f [int]: (>0): set the number of frames per second (FPS).
+        default: 30
+
+    -h [int]: (>0): set height of output in number of lines
+        default: terminal height
+
+    -w [int]: (>0): set width of output in number of characters
+        default: terminal width
+
+    -n [int]: set number of frames to render.
+        default: undefined (infinit loop)
+
+    -?: set colors. Must be specified as a list of integers between 0 and 255
+        default: 232,233,234..,255 # grayscale
+
+    -?: set predefined scale: grayscale,
+
