@@ -19,14 +19,14 @@ jobs:
         run: make setup-alire
 
       - name: Build release
-        run: make release
+        run: make
 
       - name: Test binary
         run: |
           ls -lh bin/
           file bin/sonada
           ! ldd bin/sonada
-          test -x bin/sonada # will do ./bin/sonada -h when cli options are enabled
+          ./bin/sonada --help
 
       - name: Upload artifact
         if: ${{env.ACT != 'true' }} # skip upload artifact if running in act
