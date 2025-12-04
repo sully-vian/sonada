@@ -109,9 +109,11 @@ begin
    Main (Config);
    Put (Reset & Show_Cursor);
 exception
-   when E : Parse_Error | Show_Help =>
+   when E : Parse_Error =>
       Set_Exit_Status (Failure);
       Put_Line (Standard_Error, Exception_Message (E));
+   when Show_Help =>
+      return;
    when others =>
       Put (Reset & Show_Cursor);
       raise;

@@ -78,32 +78,32 @@ package body Config is
    begin
       while (I <= Argument_Count) loop
          case Get_Option (I) is
-            when Help        =>
+            when Help =>
                Help;
                Set_Exit_Status (Success);
                raise Show_Help;
 
-            when Width       =>
+            when Width =>
                I := I + 1;
                Config.Width := Positive'Value (Argument (I));
 
-            when Height      =>
+            when Height =>
                I := I + 1;
                Config.Height := Positive'Value (Argument (I));
 
-            when Num_Frames  =>
+            when Num_Frames =>
                I := I + 1;
                Config.Num_Frames := Integer'Value (Argument (I));
 
-            when FPS         =>
+            when FPS =>
                I := I + 1;
                Config.FPS := Positive'Value (Argument (I));
 
-            when Z_Step      =>
+            when Z_Step =>
                I := I + 1;
                Config.Z_Step := Float'Value (Argument (I));
 
-            when Colors      =>
+            when Colors =>
                Config.Colors.Clear;
                while (I < Argument_Count) loop
                   if (Argument (I + 1) (1) = '-') then
@@ -113,7 +113,7 @@ package body Config is
                   Config.Colors.Append (Integer'Value (Argument (I)));
                end loop;
 
-            when Gradient    =>
+            when Gradient =>
                I := I + 1;
                if Argument (I) = "grayscale" then
                   Config.Colors := Grayscale;
@@ -135,7 +135,7 @@ package body Config is
                       & " --help' for more information";
                end if;
 
-            when Verbose     =>
+            when Verbose =>
                Config.Verbose := True;
 
             when Dump_Config =>

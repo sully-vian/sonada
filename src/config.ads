@@ -5,7 +5,7 @@ package Config is
      Ada.Containers.Vectors (Index_Type => Natural, Element_Type => Integer);
    subtype Color_Vector is Integer_Vectors.Vector;
 
-   Show_Help   : exception;
+   Show_Help : exception;
    Parse_Error : exception;
 
    type Config_Type is record
