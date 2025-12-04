@@ -5,7 +5,7 @@ package Constants is
    Inv_256      : constant Float := 1.0 / 256.0;
    Permutations :
      constant array (Integer range 0 .. 255) of Integer range 0 .. 255 :=
-       (151,
+       [151,
         160,
         137,
         91,
@@ -260,5 +260,5 @@ package Constants is
         215,
         61,
         156,
-        180);
+        180];
 end Constants;

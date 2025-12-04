@@ -29,6 +29,9 @@ release:
 dev:
 	$(ALR) build --development
 
+val:
+	$(ALR) build --validation
+
 run:
 	$(ALR) run
 

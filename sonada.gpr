@@ -1,4 +1,8 @@
+with "config/sonada_config.gpr";
+
 project Sonada is
+
+   -- Build_Profile := external("BUILD", "development");
 
    ----------------------
    -- Directory Layout --
@@ -9,74 +13,25 @@ project Sonada is
 
    for Main use ("sonada.adb");  -- your MAIN := src/sonada.adb
 
-   ------------------------
-   -- Build Config Types --
-   ------------------------
-   type Build_Type is ("debug", "release");
-   Build : Build_Type := external ("BUILD", "release");
-
    -----------------------
    -- Compiler Switches --
    -----------------------
    package Compiler is
-      case Build is
-
-         when "release" =>
-            for Default_Switches ("Ada") use
-              (
-                  "-O2",
-                  "-gnatn"
-               );
-
-         when "debug" =>
-            for Default_Switches ("Ada") use
-              (
-               -- MAX warnings:
-               "-gnatwa",   -- all warnings
-               "-gnatwae",  -- warn on unused entities
-               "-gnatwc",   -- case warnings
-               "-gnatwe",   -- comment formatting warnings
-               "-gnatws",   -- suspicious constructs
-               "-gnatwA",   -- even more warnings
-
-               -- Debug info:
-               "-gnatg",
-               "-gnatgl",
-
-               -- Full runtime checks:
-               "-gnatfd",   -- bounds
-               "-gnatfS",   -- stack
-               "-gnatfI",   -- index
-               "-gnatfE",   -- storage pool
-               "-gnatfR",   -- range
-               "-gnatfP",   -- null pointer check
-
-               -- Style checks:
-               "-gnatRm",   -- enforce Ada style
-               "-gnatya"    -- Ada 95 legality check extensions
-              );
-      end case;
+      for Default_Switches("Ada") use Sonada_Config.Ada_Compiler_Switches;
    end Compiler;
 
    ---------------------
    -- Linker settings --
    ---------------------
    package Binder is
-      case Build is
-         when "release" =>
-            null;
-         when "debug" =>
-             for Default_Switches ("Ada") use ("-E");
-      end case;
+      for Default_Switches ("Ada") use ("-E");
    end Binder;
 
    package Linker is
-      case Build is
-         when "release" =>
-           for Default_Switches("Ada") use ("-static");
-         when "debug" =>
-            null;
-      end case;
+       case Sonada_Config.Build_Profile is
+           when "release" => for Default_Switches("Ada") use ("-static");
+           when others => null;
+    end case;
    end Linker;
 
    ------------------------
