@@ -17,33 +17,54 @@ package body Lib is
            mod 256);
    end Get_Hash;
 
-   -- Calculates a hash value for (I,J,K), modulates it to [0,5] and gives
-   -- a corresponsing iso-oriented gradient
+   -- Calculates a hash value for (I,J,K), modulates it to [0,15] and gives
+   -- a corresponding gradient vector from the 12 edges of a cube.
    function Get_Gradient_3D (I, J, K : in Integer) return Gradient is
       Hash : constant Integer := Get_Hash (I, J, K);
       Grad : Gradient := (0.0, 0.0, 0.0);
    begin
-      case Hash mod 6 is
-         when 0 =>
-            Grad.X := 1.0;
+      -- We use 'mod 16' (standard Improved Perlin Noise uses 16 gradients)
+      -- This includes the 12 edges of a cube, plus 4 repeats to make it a power of 2.
+      case Hash mod 16 is
+         when 0 | 12 =>
+            Grad := (1.0, 1.0, 0.0);
 
-         when 1 =>
-            Grad.X := -1.0;
+         when 1 | 13 =>
+            Grad := (-1.0, 1.0, 0.0);
 
          when 2 =>
-            Grad.Y := 1.0;
+            Grad := (1.0, -1.0, 0.0);
 
          when 3 =>
-            Grad.Y := -1.0;
+            Grad := (-1.0, -1.0, 0.0);
 
          when 4 =>
-            Grad.Z := 1.0;
+            Grad := (1.0, 0.0, 1.0);
 
          when 5 =>
-            Grad.Z := -1.0;
+            Grad := (-1.0, 0.0, 1.0);
+
+         when 6 =>
+            Grad := (1.0, 0.0, -1.0);
+
+         when 7 =>
+            Grad := (-1.0, 0.0, -1.0);
+
+         when 8 =>
+            Grad := (0.0, 1.0, 1.0);
+
+         when 9 | 14 =>
+            Grad := (0.0, -1.0, 1.0);
+
+         when 10 =>
+            Grad := (0.0, 1.0, -1.0);
+
+         when 11 | 15 =>
+            Grad := (0.0, -1.0, -1.0);
 
          when others =>
-            raise Constraint_Error;
+            -- Should never happen with mod 16
+            Grad := (0.0, 0.0, 0.0);
       end case;
       return Grad;
    end Get_Gradient_3D;

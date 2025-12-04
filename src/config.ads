@@ -1,12 +1,11 @@
 with Ada.Containers.Vectors;
-with Ada.Strings.Text_Buffers; use Ada.Strings.Text_Buffers;
 
 package Config is
    package Integer_Vectors is new
      Ada.Containers.Vectors (Index_Type => Natural, Element_Type => Integer);
    subtype Color_Vector is Integer_Vectors.Vector;
 
-   Show_Help : exception;
+   Show_Help   : exception;
    Parse_Error : exception;
 
    type Config_Type is record

@@ -26,6 +26,9 @@ package body Colors is
       Gray   : constant String := ESC & "[48;5;" & Three_Char_Of (Norm) & "m";
       Result : constant Gray_String := Gray & C;
    begin
+      if (Config.Verbose) then
+         null;
+      end if;
       return Result;
    end Color;
 end Colors;

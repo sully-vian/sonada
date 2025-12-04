@@ -1,7 +1,9 @@
-with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Command_Line; use Ada.Command_Line;
+with Ada.Exceptions;   use Ada.Exceptions;
+with Ada.Text_IO;      use Ada.Text_IO;
 with Colors;
-with Config;      use Config;
-with Lib;         use Lib;
+with Config;           use Config;
+with Lib;              use Lib;
 with Interrupt_Handler;
 with Terminal_Size;
 
@@ -107,8 +109,9 @@ begin
    Main (Config);
    Put (Reset & Show_Cursor);
 exception
-   when Parse_Error | Show_Help =>
-      null;
+   when E : Parse_Error | Show_Help =>
+      Set_Exit_Status (Failure);
+      Put_Line (Standard_Error, Exception_Message (E));
    when others =>
       Put (Reset & Show_Cursor);
       raise;

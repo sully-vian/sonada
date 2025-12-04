@@ -1,5 +1,6 @@
-with Ada.Text_IO;      use Ada.Text_IO;
-with Ada.Command_Line; use Ada.Command_Line;
+with Ada.Characters.Latin_1; use Ada.Characters.Latin_1;
+with Ada.Command_Line;       use Ada.Command_Line;
+with Ada.Text_IO;            use Ada.Text_IO;
 with Help;
 
 package body Config is
@@ -76,34 +77,33 @@ package body Config is
       I : Positive := 1;
    begin
       while (I <= Argument_Count) loop
-         --Put_Line ("Arg: " & Arg);
          case Get_Option (I) is
-            when Help =>
+            when Help        =>
                Help;
                Set_Exit_Status (Success);
                raise Show_Help;
 
-            when Width =>
+            when Width       =>
                I := I + 1;
                Config.Width := Positive'Value (Argument (I));
 
-            when Height =>
+            when Height      =>
                I := I + 1;
                Config.Height := Positive'Value (Argument (I));
 
-            when Num_Frames =>
+            when Num_Frames  =>
                I := I + 1;
                Config.Num_Frames := Integer'Value (Argument (I));
 
-            when FPS =>
+            when FPS         =>
                I := I + 1;
                Config.FPS := Positive'Value (Argument (I));
 
-            when Z_Step =>
+            when Z_Step      =>
                I := I + 1;
                Config.Z_Step := Float'Value (Argument (I));
 
-            when Colors =>
+            when Colors      =>
                Config.Colors.Clear;
                while (I < Argument_Count) loop
                   if (Argument (I + 1) (1) = '-') then
@@ -113,31 +113,46 @@ package body Config is
                   Config.Colors.Append (Integer'Value (Argument (I)));
                end loop;
 
-            when Gradient =>
+            when Gradient    =>
                I := I + 1;
                if Argument (I) = "grayscale" then
                   Config.Colors := Grayscale;
                elsif Argument (I) = "viridis" then
                   Config.Colors := Viridis;
+               else
+                  raise Parse_Error
+                    with
+                      Command_Name
+                      & ": invalid value for "
+                      & Argument (I - 1)
+                      & ": '"
+                      & Argument (I)
+                      & "'. allowed values: grayscale, viridis"
+                      & LF
+                      & Command_Name
+                      & ": try '"
+                      & Command_Name
+                      & " --help' for more information";
                end if;
 
-            when Verbose =>
+            when Verbose     =>
                Config.Verbose := True;
 
             when Dump_Config =>
                Config.Dump := True;
 
             when Unknown_Opt =>
-               null;
-               Put_Line
-                 (Command_Name & ": option '" & Argument (I) & "' is unknown");
-               Put_Line
-                 (Command_Name
-                  & ": try '"
-                  & Command_Name
-                  & " --help' for more information");
-               Set_Exit_Status (Failure);
-               raise Parse_Error;
+               raise Parse_Error
+                 with
+                   Command_Name
+                   & ": option '"
+                   & Argument (I)
+                   & "' is unknown"
+                   & LF
+                   & Command_Name
+                   & ": try '"
+                   & Command_Name
+                   & " --help' for more information";
          end case;
          I := I + 1;
       end loop;
