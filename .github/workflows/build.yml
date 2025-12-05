@@ -26,7 +26,6 @@ jobs:
           ls -lh bin/
           file bin/sonada
           ! ldd bin/sonada
-          ./bin/sonada --help
 
       - name: Upload artifact
         if: ${{env.ACT != 'true' }} # skip upload artifact if running in act

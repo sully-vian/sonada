@@ -4,11 +4,11 @@
 
 - [ ] Develop the building process and multi-platform releases for GitHub
     - [x] Artifact building GitHub Action
-    - [ ] use the [setup-alire](https://github.com/alire-project/setup-alire) GitHub Action
+    - [x] use the [setup-alire](https://github.com/alire-project/setup-alire) GitHub Action
     - [ ] Build to multiple platform
-- [ ] Add cli options support (see [`man.txt`](man.txt))
-    - [ ] -f: fps
-    - [ ] -h/w: height/width
-    - [ ] -n: number of frames
-    - [ ] -?: color gradient (see [ansi](https://github.com/fidian/ansi)
-- [ ] Add documentation
+- [x] Add cli options support (see [`man.txt`](man.txt))
+    - [x] -f: fps
+    - [x] -h/w: height/width
+    - [x] -n: number of frames
+    - [x] -?: color gradient (see [ansi](https://github.com/fidian/ansi)
+- [x] Add documentation

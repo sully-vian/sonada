@@ -29,7 +29,7 @@ project Sonada is
 
    package Linker is
        case Sonada_Config.Build_Profile is
-           when "release" => for Default_Switches("Ada") use ("-static");
+           when "release" => for Default_Switches("Ada") use ("-static", "-fuse-ld=lld");
            when others => null;
     end case;
    end Linker;

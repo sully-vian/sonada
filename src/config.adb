@@ -4,7 +4,6 @@ with Ada.Text_IO;            use Ada.Text_IO;
 with Help;
 
 package body Config is
-
    Grayscale : constant Color_Vector := [for I in 0 .. 23 => I + 232];
    Viridis   : constant Color_Vector :=
      [17,
