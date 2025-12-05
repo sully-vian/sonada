@@ -33,7 +33,7 @@ jobs:
         run: |
           RELEASE_DATE=$(date +'%Y-%m-%d')
           echo "tag_name=release-$RELEASE_DATE" >> $GITHUB_OUTPUT
-          echo "release_name=Sonada Release $RELEASE_DATE" >> $GITHUB_OUPUT
+          echo "release_name=Sonada Release $RELEASE_DATE" >> $GITHUB_OUTPUT
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
