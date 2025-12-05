@@ -15,8 +15,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Alire
-        run: make setup-alire
+      - name: Install Alire
+        uses: alire-project/setup-alire@v4
 
       - name: Build release
         run: make

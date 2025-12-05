@@ -1,5 +1,5 @@
 # use installed alire or local one: ./bin/alr
-ALR = $(shell command -v alr 2> /dev/null || echo bin/alr)
+ALR = alr
 GNATFORMAT = gnatformat 
 
 GPRFILE = sonada.gpr
@@ -20,7 +20,7 @@ format:
 	$(GNATFORMAT) -P $(GPRFILE)
 
 act:
-	act push
+	act --env RUNNER_TOOL_CACHE=$$HOME/.cache/act/tool_cache --env RUNNER_TEMP=$$(mktemp -d) push
 
 release:
 	$(ALR) build --release
