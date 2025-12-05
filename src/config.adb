@@ -155,10 +155,5 @@ package body Config is
          end case;
          I := I + 1;
       end loop;
-      Put_Line
-        ("range:"
-         & Config.Colors.First_Index'Image
-         & ","
-         & Config.Colors.Last_Index'Image);
    end Make_Config;
 end Config;
